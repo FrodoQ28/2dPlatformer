@@ -1,36 +1,36 @@
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Events;
+using System;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(Rotator))]
 public class Mover : MonoBehaviour
 {
     [SerializeField, Min(1f)] private float _moveSpeed;
     [SerializeField, Min(1f)] private float _jumpHeight;
 
-    private Vector2 _moveDirection;
     private Rigidbody2D _rigidbody;
-    private LayerMask _groundLayer;
+    private Rotator _rotator;
+
+    private Vector2 _direction;
     private bool _isRight = true;
 
-    public event UnityAction MoveEnabled;
-    public event UnityAction MoveDisabled;
-    public event UnityAction JumpEnabled;
+    public event Action MoveEnabled;
+    public event Action MoveDisabled;
+    public event Action JumpEnabled;
 
     public bool IsGrounded { get; private set; }
 
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _groundLayer = LayerMask.NameToLayer("Ground");
+        _rotator = GetComponent<Rotator>();
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        _moveDirection = context.ReadValue<Vector2>();
+        _direction = context.ReadValue<Vector2>();
 
-        if (_moveDirection == Vector2.zero )
+        if (_direction == Vector2.zero )
         {
             MoveDisabled?.Invoke();
         }
@@ -39,14 +39,14 @@ public class Mover : MonoBehaviour
             MoveEnabled?.Invoke();
         }
 
-        if (_moveDirection == Vector2.right)
+        if (_direction == Vector2.right)
         {
             _isRight = true;
         }
-        else if (_moveDirection == Vector2.left)
+        else if (_direction == Vector2.left)
         {
             _isRight = false;
-            _moveDirection = -_moveDirection;
+            _direction = -_direction;
         }
     }
 
@@ -55,28 +55,10 @@ public class Mover : MonoBehaviour
 
     private void Update()
     {
-        IsGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, ~_groundLayer);
+        IsGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, ~LayerManager.Ground);
 
-        Move(_moveDirection * _moveSpeed * Time.deltaTime);
-        Rotate();
-    }
-
-    private void Rotate()
-    {
-        quaternion rotation = transform.rotation;
-        float rortationRight = 0f;
-        float rotationLeft = 180f;
-
-        if (_isRight)
-        {
-            rotation.value.y = rortationRight;
-        }
-        else
-        {
-            rotation.value.y = rotationLeft;
-        }
-
-        transform.rotation = rotation;
+        _rotator.Turn(_isRight);
+        Move(_direction * _moveSpeed * Time.deltaTime);
     }
 
     private void Move(Vector2 direction) =>

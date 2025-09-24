@@ -1,11 +1,10 @@
 using UnityEngine;
-using UnityEngine.Events;
-
+using System;
 public class Wallet : MonoBehaviour
 {
     [SerializeField] private Player _player;
 
-    public event UnityAction MoneyChanged;
+    public event Action MoneyChanged;
 
     public int Money { get; private set; }
 

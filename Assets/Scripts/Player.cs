@@ -1,9 +1,8 @@
 using UnityEngine;
-using UnityEngine.Events;
-
+using System;
 public class Player : MonoBehaviour
 {
-    public event UnityAction MoneyTaked;
+    public event Action MoneyTaked;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
