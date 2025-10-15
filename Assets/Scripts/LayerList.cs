@@ -1,5 +1,5 @@
 
-public static class LayerManager
+public static class LayerList
 {
     public const int Default = 0;
     public const int Ground = 3;

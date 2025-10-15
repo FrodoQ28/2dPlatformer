@@ -1,15 +1,15 @@
 using UnityEngine;
-using System;
-public class Player : MonoBehaviour
+
+public class Collector : MonoBehaviour
 {
-    public event Action MoneyTaked;
+    [SerializeField] private Wallet _wallet;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.TryGetComponent<Coin>(out Coin coin))
         {
-            MoneyTaked?.Invoke();
-            Destroy(coin.gameObject);
+            coin.TakeMoney();
+            _wallet.AddMoney();
         }
     }
 }
