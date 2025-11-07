@@ -1,10 +1,10 @@
 using System;
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+public class Coin : MonoBehaviour,ILootable
 {
-    public event Action<Coin> MoneyTaked;
+    public event Action<ILootable> LootTaked;
 
-    public void TakeMoney() =>
-            MoneyTaked?.Invoke(this);
+    public void Taked() =>
+            LootTaked?.Invoke(this);
 }

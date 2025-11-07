@@ -5,11 +5,13 @@ public class AnimationSwitch : MonoBehaviour
 
     private const string IsMoving = "IsMoving";
     private const string IsJumping = "IsJumping";
+    private const string Attack = "Attack";
 
     private Animator _animator;
 
     private readonly int _isMovingHash = Animator.StringToHash(nameof(IsMoving));
     private readonly int _isJumpingHash = Animator.StringToHash(nameof(IsJumping));
+    private readonly int _attackHash = Animator.StringToHash(nameof(Attack));
 
     private void Awake()
     {
@@ -27,4 +29,7 @@ public class AnimationSwitch : MonoBehaviour
 
     public void OffJump() =>
         _animator.SetBool(_isJumpingHash, false);
+
+    public void OnAttack() =>
+        _animator.SetTrigger(_attackHash);
 }

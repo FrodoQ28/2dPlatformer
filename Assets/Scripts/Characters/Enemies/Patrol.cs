@@ -14,7 +14,6 @@ public class Patrol : MonoBehaviour
     private Vector3 _direction;
     private int _currentTarget = 0;
     private float _minDictanceSquared = 0.25f;
-    private bool _isRight = true;
 
     private void Awake()
     {
@@ -24,8 +23,12 @@ public class Patrol : MonoBehaviour
         _mover = GetComponent<Mover2D>();
         _rotator = GetComponent<Rotator2D>();
         _animation = GetComponent<AnimationSwitch>();
+    }
 
-        _direction = _targetPoints[_currentTarget].position;
+    private void OnEnable()
+    {
+        SetDirection();
+
     }
 
     private void Update()
@@ -35,16 +38,22 @@ public class Patrol : MonoBehaviour
         if (differencePosition.sqrMagnitude <= _minDictanceSquared)
         {
             _currentTarget = ++_currentTarget % _targetPoints.Length;
-            _direction = _targetPoints[_currentTarget].position;
-            DefineTurn();
+
+            SetDirection();
         }
     }
 
     private void FixedUpdate()
     {
-        _rotator.Turn(_isRight);
+        _rotator.Turn();
 
         Move();
+    }
+
+    private void SetDirection()
+    {
+        _direction = (_targetPoints[_currentTarget].position - transform.position).normalized;
+        _direction = _rotator.DefineTurn(_direction);
     }
 
     private void Move()
@@ -57,19 +66,6 @@ public class Patrol : MonoBehaviour
         else
         {
             _animation.OffMove();
-        }
-    }
-
-    private void DefineTurn()
-    {
-        if (_direction.x > transform.position.x)
-        {
-            _isRight = true;
-        }
-        else if (_direction.x < transform.position.x)
-        {
-            _isRight = false;
-            _direction.x = -_direction.x;
         }
     }
 

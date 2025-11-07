@@ -3,7 +3,8 @@ using UnityEngine;
 
 [RequireComponent(typeof(Mover2D), typeof(Rotator2D), typeof(InputReader))]
 [RequireComponent(typeof(Rigidbody2D), typeof(GroundDetector), typeof(Collector))]
-[RequireComponent(typeof(AnimationSwitch))]
+[RequireComponent(typeof(AnimationSwitch), typeof(Health), typeof(Attacker))]
+[RequireComponent (typeof(PlayerEnemyDetector))]
 public class Player : MonoBehaviour
 {
     private Mover2D _mover;
@@ -12,9 +13,13 @@ public class Player : MonoBehaviour
     private GroundDetector _groundDetector;
     private Rigidbody2D _rigidbody;
     private AnimationSwitch _animation;
+    private Health _health;
+    private Attacker _attacker;
+    private PlayerEnemyDetector _enemyDetector;
 
-    private bool _isRight = true;
+    private bool _canMove = true;
     private Vector2 _direction;
+    private Enemy _target;
 
     private void Awake()
     {
@@ -24,40 +29,42 @@ public class Player : MonoBehaviour
         _groundDetector = GetComponent<GroundDetector>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _animation = GetComponent<AnimationSwitch>();
+        _health = GetComponent<Health>();
+        _attacker = GetComponent<Attacker>();
+        _enemyDetector = GetComponent<PlayerEnemyDetector>();
     }
 
-    private void OnEnable() =>
+    private void OnEnable()
+    {
         _input.JumpEnabled += Jump;
+        _health.DamageTaked += MoveStop;
+        _input.AttackEnabled += Attack;
+        _enemyDetector.EnemyDetected += SetTarget;
+        _enemyDetector.EnemyUndetected += DeleteTarget;
+    }
 
-    private void OnDisable() =>
+    private void OnDisable()
+    {
         _input.JumpEnabled -= Jump;
+        _health.DamageTaked -= MoveStop;
+        _input.AttackEnabled -= Attack;
+        _enemyDetector.EnemyDetected -= SetTarget;
+        _enemyDetector.EnemyUndetected -= DeleteTarget;
+    }
 
     private void FixedUpdate()
     {
         _direction = _input.MoveDirection;
 
-        DefineTurn();
-        _rotator.Turn(_isRight);
+        _direction = _rotator.DefineTurn(_direction);
+        _rotator.Turn();
 
         Move();
     }
 
-    private void DefineTurn()
-    {
-        if (_input.MoveDirection == Vector2.right)
-        {
-            _isRight = true;
-        }
-        else if (_input.MoveDirection == Vector2.left)
-        {
-            _isRight = false;
-            _direction = -_direction;
-        }
-    }
-
     private void Move()
     {
-        if (_direction != Vector2.zero)
+        if (_direction != Vector2.zero && _canMove)
         {
             _mover.Move(_direction);
             _animation.OnMove();
@@ -70,7 +77,7 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        if (_groundDetector.IsGrounded)
+        if (_groundDetector.IsGrounded && _canMove)
             StartCoroutine(Jumping());
     }
 
@@ -84,5 +91,35 @@ public class Player : MonoBehaviour
         yield return wait;
 
         _animation.OffJump();
+    }
+
+    private void MoveStop() =>
+        StartCoroutine(MovingStoped());
+
+
+    private IEnumerator MovingStoped()
+    {
+        WaitForSeconds wait = new WaitForSeconds(1);
+
+        _canMove = false;
+
+        yield return wait;
+
+        _canMove = true;
+    }
+
+    private void SetTarget(Enemy enemy) =>
+        _target = enemy;
+
+    private void DeleteTarget() =>
+        _target = null;
+
+    private void Attack()
+    {
+        _animation.OnAttack();
+
+        if (_target != null && _target.TryGetComponent(out Health health))
+            _attacker.Attack(health);
+
     }
 }

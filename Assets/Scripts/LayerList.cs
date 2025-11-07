@@ -6,4 +6,5 @@ public static class LayerList
     public const int Water = 4;
     public const int Player = 6;
     public const int Coin = 7;
+    public const int Enemy = 8;
 }
