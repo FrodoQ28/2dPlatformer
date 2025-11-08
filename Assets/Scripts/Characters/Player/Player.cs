@@ -19,7 +19,6 @@ public class Player : MonoBehaviour
 
     private bool _canMove = true;
     private Vector2 _direction;
-    private Enemy _target;
 
     private void Awake()
     {
@@ -39,8 +38,6 @@ public class Player : MonoBehaviour
         _input.JumpEnabled += Jump;
         _health.DamageTaked += MoveStop;
         _input.AttackEnabled += Attack;
-        _enemyDetector.EnemyDetected += SetTarget;
-        _enemyDetector.EnemyUndetected += DeleteTarget;
     }
 
     private void OnDisable()
@@ -48,8 +45,6 @@ public class Player : MonoBehaviour
         _input.JumpEnabled -= Jump;
         _health.DamageTaked -= MoveStop;
         _input.AttackEnabled -= Attack;
-        _enemyDetector.EnemyDetected -= SetTarget;
-        _enemyDetector.EnemyUndetected -= DeleteTarget;
     }
 
     private void FixedUpdate()
@@ -96,7 +91,6 @@ public class Player : MonoBehaviour
     private void MoveStop() =>
         StartCoroutine(MovingStoped());
 
-
     private IEnumerator MovingStoped()
     {
         WaitForSeconds wait = new WaitForSeconds(1);
@@ -108,17 +102,16 @@ public class Player : MonoBehaviour
         _canMove = true;
     }
 
-    private void SetTarget(Enemy enemy) =>
-        _target = enemy;
-
-    private void DeleteTarget() =>
-        _target = null;
-
     private void Attack()
     {
+        Health[] healths = _enemyDetector.GetEnemyInRadius();
+
         _animation.TurnOnAttack();
 
-        if (_target != null && _target.TryGetComponent(out Health health))
-            _attacker.Attack(health);
+        if (healths != null)
+        {
+            foreach (Health health in healths)
+                _attacker.Attack(health);
+        }
     }
 }

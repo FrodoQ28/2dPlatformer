@@ -29,12 +29,12 @@ public class Enemy : MonoBehaviour
         _playerDetector.PlayerUndetected -= OffPursuit;
     }
 
-    private void OnPursuit(Player player)
+    private void OnPursuit(Health health)
     {
         _patrol.enabled = false;
         _pursuer.enabled = true;
 
-        _pursuer.SetTarget(player);
+        _pursuer.SetTarget(health);
     }
 
     private void OffPursuit()

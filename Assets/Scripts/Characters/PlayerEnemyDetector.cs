@@ -8,11 +8,10 @@ public class PlayerEnemyDetector : MonoBehaviour
 
     private Ray2D _ray;
     private bool _isPlayerScript;
+    private int _enemySearchRadius = 2;
 
-    public event Action<Player> PlayerDetected;
+    public event Action<Health> PlayerDetected;
     public event Action PlayerUndetected;
-    public event Action<Enemy> EnemyDetected;
-    public event Action EnemyUndetected;
 
     private void Awake()
     {
@@ -24,25 +23,43 @@ public class PlayerEnemyDetector : MonoBehaviour
     {
         _ray.origin = transform.position;
         _ray.direction = transform.right;
-        RaycastHit2D hit = Physics2D.Raycast(_ray.origin, _ray.direction, _maxRayDistance, _layerMask);
-        Debug.DrawRay(_ray.origin, _ray.direction * _maxRayDistance, Color.yellow);
 
-        if (hit)
+        if (_isPlayerScript == false)
         {
-            if (hit.collider.gameObject.TryGetComponent(out Player player) && _isPlayerScript == false)
+            RaycastHit2D hit = Physics2D.Raycast(_ray.origin, _ray.direction, _maxRayDistance, _layerMask);
+            Debug.DrawRay(_ray.origin, _ray.direction * _maxRayDistance, Color.yellow);
+
+            if (hit)
             {
-                PlayerDetected?.Invoke(player);
+                if (hit.collider.gameObject.TryGetComponent(out Health health))
+                    PlayerDetected?.Invoke(health);
             }
-            else if (hit.collider.gameObject.TryGetComponent(out Enemy enemy) && _isPlayerScript)
+            else
             {
-                EnemyDetected?.Invoke(enemy);
+                PlayerUndetected?.Invoke();
             }
         }
-        else
+    }
+
+    public Health[] GetEnemyInRadius()
+    {
+        Health[] allEnemies = default;
+        RaycastHit2D[] hits = Physics2D.RaycastAll(_ray.origin, _ray.direction, _enemySearchRadius, _layerMask);
+
+        Debug.DrawRay(_ray.origin, _ray.direction * _enemySearchRadius, Color.yellow);
+
+        if (hits != null)
         {
-            PlayerUndetected?.Invoke();
-            EnemyUndetected?.Invoke();
+            allEnemies = new Health[hits.Length];
+
+            for (int i = 0; i < hits.Length; i++)
+            {
+                if (hits[i].collider.TryGetComponent(out Health health))
+                    allEnemies[i] = health;
+            }
         }
+
+        return allEnemies;
     }
 
     private void InitializeLayerMask()

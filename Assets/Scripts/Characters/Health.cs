@@ -16,20 +16,26 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float damageValue)
     {
-        _value -= damageValue;
+        if (damageValue > 0)
+        {
+            _value -= damageValue;
 
-        DamageTaked?.Invoke();
+            DamageTaked?.Invoke();
 
-        Debug.Log("Çהמנמגüו" + this.gameObject.name + _value);
+            Debug.Log("Çהמנמגüו" + this.gameObject.name + _value);
+        }
     }
 
     public void Heal(float healValue)
     {
-        _value += healValue;
+        if (healValue > 0)
+        {
+            _value += healValue;
 
-        if (_value > _maxValue)
-            _value = _maxValue;
+            if (_value > _maxValue)
+                _value = _maxValue;
 
-        Debug.Log("Çהמנמגüו" + this.gameObject.name + _value);
+            Debug.Log("Çהמנמגüו" + this.gameObject.name + _value);
+        }
     }
 }

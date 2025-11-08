@@ -7,7 +7,7 @@ public class Pursuer : MonoBehaviour
     private Rotator2D _rotator;
     private AnimationSwitch _animation;
     private Attacker _attacker;
-    private Player _target;
+    private Health _target;
 
     private Vector2 _direction;
 
@@ -40,17 +40,13 @@ public class Pursuer : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out Player player) && player == _target)
+        if (collision.gameObject.TryGetComponent(out Health player) && player == _target)
         {
             _animation.TurnOnAttack();
-
-            if (_target.TryGetComponent(out Health playerHealth))
-                _attacker.Attack(playerHealth);
+            _attacker.Attack(player);
         }
     }
 
-    public void SetTarget(Player target)
-    {
+    public void SetTarget(Health target) =>
         _target = target;
-    }
 }
