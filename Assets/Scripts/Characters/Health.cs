@@ -9,8 +9,6 @@ public class Health : MonoBehaviour
 
     public event Action DamageTaked;
 
-    //private bool _isAlive = true;
-
     private void Awake()
     {
         _value = _maxValue;
@@ -23,9 +21,6 @@ public class Health : MonoBehaviour
         DamageTaked?.Invoke();
 
         Debug.Log("Çהמנמגüו" + this.gameObject.name + _value);
-
-        //if (_value <= 0)
-        //    //_isAlive = false;
     }
 
     public void Heal(float healValue)
@@ -36,6 +31,5 @@ public class Health : MonoBehaviour
             _value = _maxValue;
 
         Debug.Log("Çהמנמגüו" + this.gameObject.name + _value);
-
     }
 }

@@ -2,22 +2,19 @@ using UnityEngine;
 
 public class GroundDetector : MonoBehaviour
 {
-    public bool IsGrounded {  get; private set; }
+    private int _enterExitDifference = 0;
 
-    private void Awake()
-    {
-        IsGrounded = false;
-    }
+    public bool IsGrounded => _enterExitDifference > 0;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerList.Ground && IsGrounded == false)
-            IsGrounded = true;
+            _enterExitDifference++;
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerList.Ground && IsGrounded)
-            IsGrounded = false;
+            _enterExitDifference--;
     }
 }

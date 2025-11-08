@@ -1,9 +1,5 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem.iOS;
-using UnityEngine.UIElements;
-using static UnityEngine.UI.Image;
 
 public class PlayerEnemyDetector : MonoBehaviour
 {
@@ -18,10 +14,9 @@ public class PlayerEnemyDetector : MonoBehaviour
     public event Action<Enemy> EnemyDetected;
     public event Action EnemyUndetected;
 
-
     private void Awake()
     {
-        InitializingLayerMask();
+        InitializeLayerMask();
         _ray = new Ray2D(transform.position, transform.right);
     }
 
@@ -50,7 +45,7 @@ public class PlayerEnemyDetector : MonoBehaviour
         }
     }
 
-    private void InitializingLayerMask()
+    private void InitializeLayerMask()
     {
         if (this.TryGetComponent(out Player _))
         {

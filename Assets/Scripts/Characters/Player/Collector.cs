@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent (typeof(Health))]
 public class Collector : MonoBehaviour
 {
     [SerializeField] private Wallet _wallet;

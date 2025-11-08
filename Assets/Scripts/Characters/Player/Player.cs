@@ -67,11 +67,11 @@ public class Player : MonoBehaviour
         if (_direction != Vector2.zero && _canMove)
         {
             _mover.Move(_direction);
-            _animation.OnMove();
+            _animation.TurnOnMove();
         }
         else
         {
-            _animation.OffMove();
+            _animation.TurnOffMove();
         }
     }
 
@@ -86,11 +86,11 @@ public class Player : MonoBehaviour
         WaitUntil wait = new WaitUntil(() => _groundDetector.IsGrounded);
 
         _mover.Jump(_rigidbody);
-        _animation.OnJump();
+        _animation.TurnOnJump();
 
         yield return wait;
 
-        _animation.OffJump();
+        _animation.TurnOffJump();
     }
 
     private void MoveStop() =>
@@ -116,10 +116,9 @@ public class Player : MonoBehaviour
 
     private void Attack()
     {
-        _animation.OnAttack();
+        _animation.TurnOnAttack();
 
         if (_target != null && _target.TryGetComponent(out Health health))
             _attacker.Attack(health);
-
     }
 }

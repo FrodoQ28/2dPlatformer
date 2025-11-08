@@ -34,14 +34,16 @@ public class Pursuer : MonoBehaviour
         {
             _rotator.Turn();
             _mover.Move(_direction);
-            _animation.OnMove();
+            _animation.TurnOnMove();
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent<Player>(out _) == _target)
+        if (collision.gameObject.TryGetComponent(out Player player) && player == _target)
         {
+            _animation.TurnOnAttack();
+
             if (_target.TryGetComponent(out Health playerHealth))
                 _attacker.Attack(playerHealth);
         }

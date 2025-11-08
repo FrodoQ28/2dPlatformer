@@ -3146,37 +3146,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1830016790}
-  - component: {fileID: 1830016789}
+  - component: {fileID: 1830016791}
   m_Layer: 0
-  m_Name: LootSpawner
+  m_Name: CoinSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1830016789
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1830016788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fa235903977c5b47a40d739316f0700, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CoinSpawner
-  _coinPrefab: {fileID: 2782529624453633540, guid: 01e9ad975ad5d534cb46c9e26bc76dc1, type: 3}
-  _medKitPrefab: {fileID: 848586966154923514, guid: 6a6a3af31a6a7544dac958219d19c0d3, type: 3}
-  _listCoinSpawnPoints: {fileID: 72688106}
-  _listMedKitSpawnPoints: {fileID: 253619004}
-  _pointsCoinArray:
-  - {fileID: 2005787513}
-  - {fileID: 1312590311}
-  - {fileID: 809743833}
-  _pointsMedKitArray:
-  - {fileID: 192893509}
-  - {fileID: 1920257410}
 --- !u!4 &1830016790
 Transform:
   m_ObjectHideFlags: 0
@@ -3192,6 +3169,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1830016791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1830016788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d111745cf9ff434439619d422839fe24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoinSpawner
+  _prefab: {fileID: 2782529624453633540, guid: 01e9ad975ad5d534cb46c9e26bc76dc1, type: 3}
+  _listSpawnPoints: {fileID: 72688106}
+  _pointsArray:
+  - {fileID: 2005787513}
+  - {fileID: 1312590311}
+  - {fileID: 809743833}
 --- !u!1 &1920257409
 GameObject:
   m_ObjectHideFlags: 0
@@ -3222,6 +3217,55 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 253619005}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1936256211
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1936256213}
+  - component: {fileID: 1936256212}
+  m_Layer: 0
+  m_Name: MedKitSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1936256212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936256211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ce0505e75b10f947a8855799897e1ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MedKitSpawner
+  _prefab: {fileID: 848586966154923514, guid: 6a6a3af31a6a7544dac958219d19c0d3, type: 3}
+  _listSpawnPoints: {fileID: 253619004}
+  _pointsArray:
+  - {fileID: 192893509}
+  - {fileID: 1920257410}
+--- !u!4 &1936256213
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936256211}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 88, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2005787512
 GameObject:
@@ -3668,3 +3712,4 @@ SceneRoots:
   - {fileID: 72688107}
   - {fileID: 253619005}
   - {fileID: 1830016790}
+  - {fileID: 1936256213}

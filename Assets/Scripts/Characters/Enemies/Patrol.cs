@@ -28,7 +28,6 @@ public class Patrol : MonoBehaviour
     private void OnEnable()
     {
         SetDirection();
-
     }
 
     private void Update()
@@ -61,11 +60,11 @@ public class Patrol : MonoBehaviour
         if (_direction != Vector3.zero)
         {
             _mover.Move(_direction);
-            _animation.OnMove();
+            _animation.TurnOnMove();
         }
         else
         {
-            _animation.OffMove();
+            _animation.TurnOffMove();
         }
     }
 

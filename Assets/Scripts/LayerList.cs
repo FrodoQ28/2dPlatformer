@@ -1,4 +1,3 @@
-
 public static class LayerList
 {
     public const int Default = 0;

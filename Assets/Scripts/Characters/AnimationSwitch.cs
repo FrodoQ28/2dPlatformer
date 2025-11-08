@@ -18,18 +18,18 @@ public class AnimationSwitch : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
-    public void OnMove() =>
+    public void TurnOnMove() =>
         _animator.SetBool(_isMovingHash, true);
 
-    public void OffMove() =>
+    public void TurnOffMove() =>
         _animator.SetBool(_isMovingHash, false);
 
-    public void OnJump() =>
+    public void TurnOnJump() =>
         _animator.SetBool(_isJumpingHash, true);
 
-    public void OffJump() =>
+    public void TurnOffJump() =>
         _animator.SetBool(_isJumpingHash, false);
 
-    public void OnAttack() =>
+    public void TurnOnAttack() =>
         _animator.SetTrigger(_attackHash);
 }
