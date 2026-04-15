@@ -24,18 +24,21 @@ public class RaycastEnemyTargetProvider2D : ILifeStealTargetProvider
             Vector2 direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
 
             RaycastHit2D hit = Physics2D.Raycast(origin, direction, radius, _enemyMask);
+
             if (hit.collider == null)
             {
                 continue;
             }
 
             Health health = hit.collider.GetComponent<Health>();
+
             if (health == null)
             {
                 continue;
             }
 
             float distance = Vector2.Distance(origin, hit.point);
+
             if (distance < bestDistance)
             {
                 bestDistance = distance;

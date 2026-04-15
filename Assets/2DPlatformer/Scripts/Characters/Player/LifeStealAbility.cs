@@ -83,7 +83,6 @@ public class LifeStealAbility
         _currentTime = _duration;
     }
 
-
     public Health Tick(float deltaTime, Vector2 playerPosition)
     {
         Health target = _targetProvider.GetTarget(playerPosition, _radius);
@@ -91,6 +90,7 @@ public class LifeStealAbility
         if (_cooldownTimer > 0f)
         {
             _cooldownTimer -= deltaTime;
+
             if (_cooldownTimer < 0f)
             {
                 _cooldownTimer = 0f;
@@ -103,6 +103,7 @@ public class LifeStealAbility
         }
 
         _currentTime -= deltaTime;
+
         if (_currentTime <= 0f)
         {
             _isActive = false;
