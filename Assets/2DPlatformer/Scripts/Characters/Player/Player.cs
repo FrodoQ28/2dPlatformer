@@ -113,4 +113,9 @@ public class Player : MonoBehaviour
                 _attacker.Attack(health);
         }
     }
+
+    private void Vampirism()
+    {
+
+    }
 }
